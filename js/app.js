@@ -2,7 +2,7 @@
  * Create a list that holds all of your cards
  */
 
-
+const Cards = ['bicycle', 'bicycle', 'leaf', 'leaf', 'cube', 'cube', 'anchor', 'anchor', 'paper-plane-o', 'paper-plane-o', 'bolt', 'bolt', 'bomb', 'bomb', 'diamond', 'diamond']
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -24,6 +24,33 @@ function shuffle(array) {
 
     return array;
 }
+
+shuffle(Cards);
+
+// ***** WORKS ***** Starting small. Creating a single card
+
+// function createCard () {
+//   let card = document.createElement('li');
+//   card.textContent='I am a card';
+//   const deck = document.querySelector('.deck');
+//   deck.appendChild(card);
+// }
+
+//creating a for loop to create multiple cards
+
+
+function createCard () {
+  for (let i = 0; i < Cards.length; i++) {
+    let card = document.createElement('li');
+    card.className = 'card';
+    // card.textContent='I am a card'; If want to show need to adjust .card css to font:4
+    const deck = document.querySelector('.deck');
+    deck.appendChild(card);
+  }
+}
+
+createCard();
+
 
 
 /*
