@@ -49,6 +49,8 @@ createCards();
 
 
 
+ // if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+
 
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
@@ -70,9 +72,7 @@ function revealCard () {
 
 // √ if the list already has another card, check to see if the two cards match
 
-// if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
-
-// if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+// if the cards do not match, remove the cards from the list and hide the card's symbol TODO:Create a MATCH function. Didn't work with trying to access the array of FlippedCards to apply .toggle or .remove (put this functionality in another function that you call from this one)
 
 
 deck.addEventListener('click', checkFlippedCards);
@@ -86,7 +86,8 @@ function checkFlippedCards () {
       console.log("It's a match");
       flippedCard_A.classList.toggle('match');
       flippedCard_B.classList.toggle('match');
-
+      flippedCard_A.classList.toggle('locked');
+      flippedCard_B.classList.toggle('locked');
     }
     else {
       //TODO: Set a timeout function so it's not so immediate.
