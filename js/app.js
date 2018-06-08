@@ -90,11 +90,16 @@ function checkFlippedCards () {
       flippedCard_B.classList.toggle('locked');
     }
     else {
-      //TODO: Set a timeout function so it's not so immediate.
       console.log("Not a match!")
     }
+
+    //TODO: disable pointer while setTimeout is functioning
+    setTimeout(function(){
     flippedCard_A.classList.remove('open', 'show');
     flippedCard_B.classList.remove('open', 'show');
+  }, 600);
+
+
   }
   else {
     console.log("Only one card flipped!")
