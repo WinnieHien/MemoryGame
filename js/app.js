@@ -31,12 +31,12 @@ shuffle(list);
 
 function createCards () {
   for (let i = 0; i < list.length; i++) {
-    let card = document.createElement('li');
-    card.className = 'card';
-    card.classList.add('fa');
-    card.classList.add(list[i]);
+    let cardz = document.createElement('li');
+    cardz.className = 'card';
+    cardz.classList.add('fa');
+    cardz.classList.add(list[i]);
     const deck = document.querySelector('.deck');
-    deck.appendChild(card);
+    deck.appendChild(cardz);
   }
 }
 
@@ -58,15 +58,33 @@ createCards();
 
 //creating an event listener to check for clicks on the deck
 
-const deck = document.querySelector('.deck');
+let allCards = document.querySelectorAll('.card');
+//
+let openCards = []
+// // √ display the card's symbol (put this functionality in another function that you call from this one)
+//
+//
+allCards.forEach(function(card) {
+  card.addEventListener('click', function(e) {
+        openCards.push(card);
+        card.classList.add('open', 'show', 'locked')
+        if (openCards.length === 2){
+            setTimeout(function() {
+              openCards.forEach(function(card) {
+                card.classList.remove('open', 'show', 'locked');
+              });
+              openCards = [];
+            }, 600);
+        }
+  })
+})
 
-// √ display the card's symbol (put this functionality in another function that you call from this one)
 
-deck.addEventListener('click', revealCard);
-function revealCard () {
-  event.target.classList.toggle('open');
-  event.target.classList.toggle('show');
-}
+//   addEventListener('click', revealCard);
+// function revealCard () {
+//   event.target.classList.toggle('open');
+//   event.target.classList.toggle('show');
+// }
 
 // √ add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
 
@@ -75,36 +93,36 @@ function revealCard () {
 // if the cards do not match, remove the cards from the list and hide the card's symbol TODO:Create a MATCH function. Didn't work with trying to access the array of FlippedCards to apply .toggle or .remove (put this functionality in another function that you call from this one)
 
 
-deck.addEventListener('click', checkFlippedCards);
-function checkFlippedCards () {
-  let flippedCards = document.querySelectorAll('.open');
-  if (flippedCards.length === 2) {
-    let flippedCard_A = flippedCards[0]
-    let flippedCard_B = flippedCards[1]
-
-    if (flippedCard_A.className === flippedCard_B.className) {
-      console.log("It's a match");
-      flippedCard_A.classList.toggle('match');
-      flippedCard_B.classList.toggle('match');
-      flippedCard_A.classList.toggle('locked');
-      flippedCard_B.classList.toggle('locked');
-    }
-    else {
-      console.log("Not a match!")
-    }
-
-    //TODO: disable pointer while setTimeout is functioning
-    setTimeout(function(){
-    flippedCard_A.classList.remove('open', 'show');
-    flippedCard_B.classList.remove('open', 'show');
-  }, 600);
-
-
-  }
-  else {
-    console.log("Only one card flipped!")
-  }
-}
+// deck.addEventListener('click', checkFlippedCards);
+// function checkFlippedCards () {
+//   let flippedCards = document.querySelectorAll('.open');
+//       if (flippedCards.length === 2) {
+//         let flippedCard_A = flippedCards[0]
+//         let flippedCard_B = flippedCards[1]
+//
+//         if (flippedCard_A.className === flippedCard_B.className) {
+//           console.log("It's a match");
+//           flippedCard_A.classList.toggle('match');
+//           flippedCard_B.classList.toggle('match');
+//           flippedCard_A.classList.toggle('locked');
+//           flippedCard_B.classList.toggle('locked');
+//         }
+//         else {
+//           console.log("Not a match!")
+//         }
+//
+//         //TODO: disable pointer while setTimeout is functioning
+//         setTimeout(function(){
+//         flippedCard_A.classList.remove('open', 'show');
+//         flippedCard_B.classList.remove('open', 'show');
+//       }, 600);
+//
+//
+//       }
+//       else {
+//         console.log("Only one card flipped!")
+//       }
+// }
 
 // function matched (array) {
 //   array.forEach.classList.toggle('match')
