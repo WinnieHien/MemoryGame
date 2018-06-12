@@ -47,88 +47,63 @@ createCards();
 /*
  * set up the event listener for a card. If a card is clicked:
 
-
-
- // if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
-
-
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+*/
 
-//creating an event listener to check for clicks on the deck
+// √ if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+// √ display the card's symbol (put this functionality in another function that you call from this one)
+// √ add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+// √ if the list already has another card, check to see if the two cards match
+// √if the cards do not match, remove the cards from the list and hide the card's symbol
 
 let allCards = document.querySelectorAll('.card');
-//
+
 let openCards = []
-// // √ display the card's symbol (put this functionality in another function that you call from this one)
-//
-//
+
+//TODO: Use Set Time Interval to add a Timer.
+//TODO: To stop a timer, use clearInterval() function. Might need to pass the actual number to clear it out. Do more research.
+
+let moves = 0;
+
 allCards.forEach(function(card) {
   card.addEventListener('click', function(e) {
+        //when clicked, add the card to the openCards array
         openCards.push(card);
         card.classList.add('open', 'show', 'locked')
         if (openCards.length === 2){
-            setTimeout(function() {
+
+            let flippedCard_A = openCards[0];
+            let flippedCard_B = openCards[1];
+
+            //If cards match, change class to match
+            if (flippedCard_A.className === flippedCard_B.className) {
+              console.log("It's a match");
+
               openCards.forEach(function(card) {
-                card.classList.remove('open', 'show', 'locked');
+                card.classList.remove('open', 'show');
+                card.classList.add('match')
               });
-              openCards = [];
-            }, 600);
+              openCards = []; //clear out openCards array
+            }
+            // If cards don't match, flip back over after 600ms
+            else {
+              console.log("Not a match!")
+
+              setTimeout(function() {
+                openCards.forEach(function(card) {
+                  card.classList.remove('open', 'show', 'locked');
+                });
+                openCards = [];
+              }, 600);
+            }
+            moves++//increment moves tracker
+            console.log ('Moves:', moves)
+            document.querySelector('.moves').innerText = moves;
         }
+        else {
+          console.log("Only one card flipped!")
+        }
+
   })
 })
-
-
-//   addEventListener('click', revealCard);
-// function revealCard () {
-//   event.target.classList.toggle('open');
-//   event.target.classList.toggle('show');
-// }
-
-// √ add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
-
-// √ if the list already has another card, check to see if the two cards match
-
-// if the cards do not match, remove the cards from the list and hide the card's symbol TODO:Create a MATCH function. Didn't work with trying to access the array of FlippedCards to apply .toggle or .remove (put this functionality in another function that you call from this one)
-
-
-// deck.addEventListener('click', checkFlippedCards);
-// function checkFlippedCards () {
-//   let flippedCards = document.querySelectorAll('.open');
-//       if (flippedCards.length === 2) {
-//         let flippedCard_A = flippedCards[0]
-//         let flippedCard_B = flippedCards[1]
-//
-//         if (flippedCard_A.className === flippedCard_B.className) {
-//           console.log("It's a match");
-//           flippedCard_A.classList.toggle('match');
-//           flippedCard_B.classList.toggle('match');
-//           flippedCard_A.classList.toggle('locked');
-//           flippedCard_B.classList.toggle('locked');
-//         }
-//         else {
-//           console.log("Not a match!")
-//         }
-//
-//         //TODO: disable pointer while setTimeout is functioning
-//         setTimeout(function(){
-//         flippedCard_A.classList.remove('open', 'show');
-//         flippedCard_B.classList.remove('open', 'show');
-//       }, 600);
-//
-//
-//       }
-//       else {
-//         console.log("Only one card flipped!")
-//       }
-// }
-
-// function matched (array) {
-//   array.forEach.classList.toggle('match')
-// }
-
-
-
-//
-// If there are more than two cards open i.e. length of the constant = 2, then compare the two. If they match then add the class match. If not toggle off show and open.
