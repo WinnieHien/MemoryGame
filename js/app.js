@@ -126,7 +126,13 @@ if (matchedCards.length === 16 || moves == 10) {
 
 function gameOver() {
   deck.classList.add('locked');
-  msg_box.innerText = 'You lose';
+  if (moves < 10) {
+    msg_box.innerText = 'You win!';
+  }
+  else {
+    msg_box.innerText = 'You lose';
+  }
   msg_box.classList.remove('hide_msg')
-  //TODO: Need a pop up message for your stats, and then if you win or lose.
+  setTimeout(function() {
+    alert(msg_box.innerText);
 }
