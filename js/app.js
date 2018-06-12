@@ -27,6 +27,9 @@ function shuffle(array) {
 
 shuffle(list);
 
+//define variables
+const deck = document.querySelector('.deck');
+
 //creating a for loop to create multiple cards
 
 function createCards () {
@@ -35,7 +38,7 @@ function createCards () {
     cardz.className = 'card';
     cardz.classList.add('fa');
     cardz.classList.add(list[i]);
-    const deck = document.querySelector('.deck');
+
     deck.appendChild(cardz);
   }
 }
@@ -58,8 +61,13 @@ createCards();
 // √if the cards do not match, remove the cards from the list and hide the card's symbol
 
 let allCards = document.querySelectorAll('.card');
+let msg_box = document.querySelector('.msg_box');
+let movesCounter = document.querySelector('.movesCounter');
+
 
 let openCards = []
+let matchedCards = []
+
 
 //TODO: Use Set Time Interval to add a Timer.
 //TODO: To stop a timer, use clearInterval() function. Might need to pass the actual number to clear it out. Do more research.
@@ -83,6 +91,7 @@ allCards.forEach(function(card) {
               openCards.forEach(function(card) {
                 card.classList.remove('open', 'show');
                 card.classList.add('match')
+                matchedCards.push(card)
               });
               openCards = []; //clear out openCards array
             }
@@ -99,7 +108,7 @@ allCards.forEach(function(card) {
             }
             moves++//increment moves tracker
             console.log ('Moves:', moves)
-            document.querySelector('.moves').innerText = moves;
+            movesCounter.innerText = moves;
         }
         else {
           console.log("Only one card flipped!")
@@ -107,3 +116,17 @@ allCards.forEach(function(card) {
 
   })
 })
+
+
+//need to figure out where to insert this.
+
+if (matchedCards.length === 16 || moves == 10) {
+  gameOver();
+}
+
+function gameOver() {
+  deck.classList.add('locked');
+  msg_box.innerText = 'You lose';
+  msg_box.classList.remove('hide_msg')
+  //TODO: Need a pop up message for your stats, and then if you win or lose.
+}

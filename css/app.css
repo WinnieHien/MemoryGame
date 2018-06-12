@@ -91,7 +91,7 @@ h1 {
 
 .score-panel {
     text-align: left;
-    width: 345px;
+    width: 60%;
     margin-bottom: 10px;
 }
 
@@ -110,4 +110,12 @@ h1 {
 .score-panel .restart {
     float: right;
     cursor: pointer;
+}
+
+.msg_box {
+  margin: 2em;
+}
+
+.hide_msg {
+  display: none;
 }
