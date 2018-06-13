@@ -33,14 +33,14 @@ const deck = document.querySelector('.deck');
 //creating a for loop to create multiple cards
 
 function createCards () {
-  for (let i = 0; i < list.length; i++) {
-    let cardz = document.createElement('li');
-    cardz.className = 'card';
-    cardz.classList.add('fa');
-    cardz.classList.add(list[i]);
+    for (let i = 0; i < list.length; i++) {
+        let cardz = document.createElement('li');
+        cardz.className = 'card';
+        cardz.classList.add('fa');
+        cardz.classList.add(list[i]);
 
-    deck.appendChild(cardz);
-  }
+        deck.appendChild(cardz);
+    }
 }
 
 createCards();
@@ -63,7 +63,7 @@ createCards();
 let allCards = document.querySelectorAll('.card');
 let msg_box = document.querySelector('.msg_box');
 let movesCounter = document.querySelector('.movesCounter');
-
+let timer = document.querySelector('.timer');
 
 let openCards = []
 let matchedCards = []
@@ -75,7 +75,7 @@ let matchedCards = []
 let moves = 0;
 
 allCards.forEach(function(card) {
-  card.addEventListener('click', function(e) {
+    card.addEventListener('click', function(e) {
         //when clicked, add the card to the openCards array
         openCards.push(card);
         card.classList.add('open', 'show', 'locked')
@@ -105,34 +105,58 @@ allCards.forEach(function(card) {
                 });
                 openCards = [];
               }, 600);
-            }
             moves++//increment moves tracker
-            console.log ('Moves:', moves)
             movesCounter.innerText = moves;
+            }
+            console.log ('Moves:', moves)
+            setTimeout(function() {
+              checkGameOver();
+            }, 250);
+
+
         }
         else {
           console.log("Only one card flipped!")
         }
 
-  })
+    })
 })
 
 
 //need to figure out where to insert this.
-
-if (matchedCards.length === 16 || moves == 10) {
-  gameOver();
+function checkGameOver() {
+    if (matchedCards.length === 16 || moves == 10) {
+    gameOver();
+    }
 }
 
 function gameOver() {
-  deck.classList.add('locked');
-  if (moves < 10) {
+    deck.classList.add('locked');
+    if (moves < 10) {
     msg_box.innerText = 'You win!';
-  }
-  else {
+    }
+    else {
     msg_box.innerText = 'You lose';
-  }
-  msg_box.classList.remove('hide_msg')
-  setTimeout(function() {
+    }
+    msg_box.classList.remove('hide_msg')
+    setTimeout(function() {
     alert(msg_box.innerText);
+    })
 }
+
+//TODO: Move up timer when completed
+
+//TODO: Need to check as to why nothing is displaying. Need to check innerText/innerHTML. Need to make the div html element display something in console.log
+
+deck.addEventListener('click', function(e) {
+    var min = 0;
+    var sec = 00;
+    setInterval(function(){
+        document.getElementById("timer").innerText = min +" : " + sec ;
+        sec++;
+        if(sec == 60){
+            min++;
+            sec = 0;
+        }
+    })
+  },1000);
