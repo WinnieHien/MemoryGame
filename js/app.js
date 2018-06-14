@@ -148,10 +148,40 @@ function gameOver() {
 
 //TODO: Need to check as to why nothing is displaying. Need to check innerText/innerHTML. Need to make the div html element display something in console.log
 
-deck.addEventListener('click', function(e) {
-    let sec = 0;
-    setInterval(function(){
-        document.querySelector('.timer').innerHTML = 'Timer:' + sec;
-        sec++;
+
+let seconds = 0;
+let minutes = 0;
+
+startTimer();
+
+function startTimer() {
+    deck.addEventListener('click', function(e) {
+        let myTimer = setInterval(insertTime, 1000);
     })
-},1000);
+}
+
+function insertTime() {
+    seconds++;
+        if (seconds < 10) {
+            document.querySelector('.timer').innerHTML = 'Timer: ' + minutes + ':0' + seconds;
+        }
+
+        else if (seconds === 60) {
+            seconds = '00';
+            minutes++;
+            document.querySelector('.timer').innerHTML = 'Timer: ' + minutes + ':' + seconds;
+        }
+        else {
+            document.querySelector('.timer').innerHTML = 'Timer: ' + minutes + ':' + seconds;
+        }
+}
+
+function stopTimer() {
+    clearInterval(myTimer);
+}
+
+function resetTimer() {
+    clearInterval(myTimer);
+    let seconds = 0;
+    let minutes = 0;
+}
