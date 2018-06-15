@@ -105,6 +105,7 @@ h1 {
     padding: 0;
     display: inline-block;
     margin: 0 5px 0 0;
+    width: 125px;
 }
 
 .score-panel .stars li {
@@ -121,7 +122,7 @@ h1 {
 
 .msg_box {
   padding: 0 2em 0 2em;
-  font: 1em;
+  font-weight: bold;
 }
 
 .hide_msg {
@@ -140,4 +141,5 @@ h1 {
 
 .red {
     color: red;
+    font-style: italic;
 }

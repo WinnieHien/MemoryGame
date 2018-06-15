@@ -25,12 +25,14 @@ let clockOff = true;
 //Message box variables
 let msg_box = document.querySelector('.msg_box');
 
-//Restart button variables
-let restartButton = document.querySelector('.restart'); //see if this works, or if it needs to be called directly like with thisTimer
-
 //Star Counter variables
 let starCounter = document.querySelector('.stars');
 let starRemoved = false;
+
+//Restart button variables
+let restartButton = document.querySelector('.restart'); //see if this works, or if it needs to be called directly like with thisTimer
+
+
 
 //TODO: See if star variable is necessary
 
@@ -73,6 +75,10 @@ function createCards () {
     }
 }
 
+
+//TODO: Remove console.log messages once bug for 3 clicks at once is fixed.
+
+
 //Activates the click funcationality on the cards/deck
 function activateCards() {
     document.querySelectorAll('.card').forEach(function(card) {
@@ -99,7 +105,7 @@ function activateCards() {
                 // If cards don't match, flip back over after 600ms
                 else {
                   console.log("Not a match!")
-
+                  removeStars();
                   setTimeout(function() {
                     openCards.forEach(function(card) {
                       card.classList.remove('open', 'show', 'locked');
@@ -110,10 +116,7 @@ function activateCards() {
                 movesCounter.innerText = moves + ' Moves';
                 }
                 console.log ('Moves:', moves)
-                // setTimeout(function() {
-                //   checkGameOver();
-                // }, 250);
-                removeStars();
+
                 checkGameOver();
 
             }
@@ -123,6 +126,11 @@ function activateCards() {
 
         })
     })
+}
+
+
+function removeStars () {
+        starCounter.firstElementChild.remove();
 }
 
 function init_Timer() {
@@ -165,14 +173,16 @@ function resetTimer() {
 }
 
 function startGame() {
+    console.log('Game Started');
     createCards();
     activateCards();
     init_Timer();
+    flashCards();
 };
 
-//TODO: Add a minute timeout, too.
+//Game is over if all cards are matched, moves = 5 or minutes = 2
 function checkGameOver() {
-    if (matchedCards.length === 16 || moves === 10 || minutes === 2) {
+    if (matchedCards.length === 16 || moves === 5|| minutes === 2) {
     gameOver();
     }
 }
@@ -194,9 +204,17 @@ function gameOver() {
     msg_box.classList.remove('hide_msg')
     stopTimer();
     setTimeout(function() {
-    alert(msg_box.innerText);
-    })
+        alert(msg_box.innerText);
+    }, 250);
 }
+
+
+setTimeout(function() {
+    document.querySelectorAll('.card').forEach(function(card) {
+        card.classList.remove('open', 'show', 'locked');
+    })
+}, 4000);
+
 
 restartButton.addEventListener('click', function() {
 
@@ -214,22 +232,13 @@ restartButton.addEventListener('click', function() {
   resetStars();
 });
 
-function removeStars () {
-    if (starRemoved === false & (moves === 3 || moves === 6 || moves === 10)) {
-        starCounter.firstElementChild.remove();
-        starRemoved = true;
-    }
-    if (moves === 5 || moves === 9) {
-        starRemoved = false;
-    }
-}
 
 
 //add Back stars on reset game
 
 function resetStars () {
     starCounter.innerHTML = '';
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
         let newStar = document.createElement('li');
         starCounter.appendChild(newStar);
         let newItag = document.createElement('i')
@@ -237,6 +246,20 @@ function resetStars () {
         newItag.classList.add('fa-star');
         newStar.appendChild(newItag);
     }
+}
+
+function flashCards () {
+    console.log('flash cards')
+
+    document.querySelectorAll('.card').forEach(function(card) {
+        card.classList.add('open', 'show', 'locked');
+    });
+
+    setTimeout(function() {
+        document.querySelectorAll('.card').forEach(function(card) {
+            card.classList.remove('open', 'show', 'locked');
+        })
+    }, 3000);
 }
 
 
