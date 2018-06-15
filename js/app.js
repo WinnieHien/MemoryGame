@@ -3,8 +3,7 @@
  * Define variables
  */
 
-
-//Create a list that holds all of your cards
+// List of Card Classes
 const list = ['fa-bicycle', 'fa-bicycle', 'fa-leaf', 'fa-leaf', 'fa-cube', 'fa-cube', 'fa-anchor', 'fa-anchor', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-bolt', 'fa-bolt', 'fa-bomb', 'fa-bomb', 'fa-diamond', 'fa-diamond'];
 
 //variables and arrays for creating the deck/cards
@@ -21,14 +20,13 @@ let timer = document.querySelector('.timer');
 let myTimer = null;
 let seconds = 0;
 let minutes = 0;
-let clockOff = true;
+let clockOff = trues
 
 //Message box variables
 let msg_box = document.querySelector('.msg_box');
 
 //Restart button variables
 let restartButton = document.querySelector('.restart'); //see if this works, or if it needs to be called directly like with thisTimer
-
 
 /*
  * Display the cards on the page
@@ -120,8 +118,6 @@ function activateCards() {
     })
 }
 
-
-
 function init_Timer() {
     deck.addEventListener('click', function(e) {
         //clockOff checks if clock is unactivated. Prevents bug of double clicking, and speeding up the clock.
@@ -146,6 +142,7 @@ function insertTime() {
         else {
             document.querySelector('.timer').innerHTML = 'Timer: ' + minutes + ':' + seconds;
         }
+    checkGameOver();
 }
 
 function stopTimer() {
@@ -160,7 +157,6 @@ function resetTimer() {
     clockOff = true;
 }
 
-
 function startGame() {
     createCards();
     activateCards();
@@ -169,18 +165,24 @@ function startGame() {
 
 //TODO: Add a minute timeout, too.
 function checkGameOver() {
-    if (matchedCards.length === 16 || moves == 10) {
+    if (matchedCards.length === 16 || moves === 10 || minutes === 2) {
     gameOver();
     }
 }
 
 function gameOver() {
     deck.classList.add('locked');
-    if (moves < 10) {
+    if (matchedCards.length === 16 ) {
     msg_box.innerText = 'You win!';
     }
+
+    else if (minutes ===2 ) {
+        document.querySelector('.timer').classList.add('red');
+        msg_box.innerText = 'You lose';
+    }
     else {
-    msg_box.innerText = 'You lose';
+        document.querySelector('.movesCounter').classList.add('red');
+        msg_box.innerText = 'You lose';
     }
     msg_box.classList.remove('hide_msg')
     stopTimer();
@@ -189,19 +191,19 @@ function gameOver() {
     })
 }
 
-
 restartButton.addEventListener('click', function() {
 
-  console.log('restart button clicked')
+  console.log('restart button clicked');
   clearGameboard();
   startGame();
   resetTimer();
   moves = 0;
   matchedCards = []
   movesCounter.innerText = moves + ' Moves';
-  msg_box.classList.add('hide_msg')
+  msg_box.classList.add('hide_msg');
   deck.classList.remove('locked');
+  movesCounter.classList.remove('red');
+  timer.classList.remove('red');
 });
-
 
 startGame();
