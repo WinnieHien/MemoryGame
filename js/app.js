@@ -56,15 +56,11 @@ function shuffle(array) {
 restartButton.addEventListener('click', function() {
   resetTimer();
   clearGameboard();
-  createCards();
-
+  startGame();
 });
 
 function clearGameboard() {
-    allCards.forEach(function(card) {
-        card.remove();
-        //or deck.innerHTML = '';
-    })
+    deck.innerHTML = '';
 }
 
 //Create gameboard function that loops through each card
@@ -132,7 +128,9 @@ function activateCards() {
 
 function init_Timer() {
     deck.addEventListener('click', function(e) {
-        let myTimer = setInterval(insertTime, 1000);
+        if (seconds === 0) {
+            myTimer = setInterval(insertTime, 1000);
+        }
     })
 }
 
@@ -158,8 +156,8 @@ function stopTimer() {
 
 function resetTimer() {
     clearInterval(myTimer);
-    let seconds = 0;
-    let minutes = 0;
+    seconds = 0;
+    minutes = 0;
 }
 
 
