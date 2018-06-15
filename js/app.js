@@ -20,13 +20,19 @@ let timer = document.querySelector('.timer');
 let myTimer = null;
 let seconds = 0;
 let minutes = 0;
-let clockOff = trues
+let clockOff = true;
 
 //Message box variables
 let msg_box = document.querySelector('.msg_box');
 
 //Restart button variables
 let restartButton = document.querySelector('.restart'); //see if this works, or if it needs to be called directly like with thisTimer
+
+//Star Counter variables
+let starCounter = document.querySelector('.stars');
+let starRemoved = false;
+
+//TODO: See if star variable is necessary
 
 /*
  * Display the cards on the page
@@ -107,6 +113,7 @@ function activateCards() {
                 // setTimeout(function() {
                 //   checkGameOver();
                 // }, 250);
+                removeStars();
                 checkGameOver();
 
             }
@@ -204,6 +211,33 @@ restartButton.addEventListener('click', function() {
   deck.classList.remove('locked');
   movesCounter.classList.remove('red');
   timer.classList.remove('red');
+  resetStars();
 });
+
+function removeStars () {
+    if (starRemoved === false & (moves === 3 || moves === 6 || moves === 10)) {
+        starCounter.firstElementChild.remove();
+        starRemoved = true;
+    }
+    if (moves === 5 || moves === 9) {
+        starRemoved = false;
+    }
+}
+
+
+//add Back stars on reset game
+
+function resetStars () {
+    starCounter.innerHTML = '';
+    for (let i = 0; i < 3; i++) {
+        let newStar = document.createElement('li');
+        starCounter.appendChild(newStar);
+        let newItag = document.createElement('i')
+        newItag.className = 'fa';
+        newItag.classList.add('fa-star');
+        newStar.appendChild(newItag);
+    }
+}
+
 
 startGame();
