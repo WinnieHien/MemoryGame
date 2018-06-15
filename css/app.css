@@ -118,7 +118,7 @@ h1 {
 }
 
 .msg_box {
-  margin: 2em;
+  padding: 0 2em 0 2em;
   font: 1em;
 }
 
@@ -128,7 +128,7 @@ h1 {
 }
 
 .timer {
-
+    width: 150px;
     padding: 0 2em 0 2em
 }
 

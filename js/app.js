@@ -7,6 +7,7 @@
 //Create a list that holds all of your cards
 const list = ['fa-bicycle', 'fa-bicycle', 'fa-leaf', 'fa-leaf', 'fa-cube', 'fa-cube', 'fa-anchor', 'fa-anchor', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-bolt', 'fa-bolt', 'fa-bomb', 'fa-bomb', 'fa-diamond', 'fa-diamond'];
 
+//variables and arrays for creating the deck/cards
 const deck = document.querySelector('.deck');
 let openCards = []
 let matchedCards = []
@@ -20,6 +21,7 @@ let timer = document.querySelector('.timer');
 let myTimer = null;
 let seconds = 0;
 let minutes = 0;
+let clockOff = true;
 
 //Message box variables
 let msg_box = document.querySelector('.msg_box');
@@ -34,9 +36,6 @@ let restartButton = document.querySelector('.restart'); //see if this works, or 
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
-
-
-
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -53,7 +52,7 @@ function shuffle(array) {
     return array;
 }
 
-
+//Clears board of all cards and html
 function clearGameboard() {
     deck.innerHTML = '';
 }
@@ -70,26 +69,26 @@ function createCards () {
     }
 }
 
+//Activates the click funcationality on the cards/deck
 function activateCards() {
     document.querySelectorAll('.card').forEach(function(card) {
         card.addEventListener('click', function(e) {
             //when clicked, add the card to the openCards array
-            console.log('clicked card')
-            openCards.push(card);
-            card.classList.add('open', 'show', 'locked')
+            console.log('card clicked')
+            openCards.push(card); //add to the openCards array. Use this to keep track if two cards are clicked to check for the match.
+            card.classList.add('open', 'show', 'locked')    //locked disables pointer functions on those cards via css.
             if (openCards.length === 2){
 
                 let flippedCard_A = openCards[0];
                 let flippedCard_B = openCards[1];
 
-                //If cards match, change class to match
+                //Check if class names match. If cards match, update class to match.
                 if (flippedCard_A.className === flippedCard_B.className) {
                   console.log("It's a match");
-
                   openCards.forEach(function(card) {
                     card.classList.remove('open', 'show');
                     card.classList.add('match')
-                    matchedCards.push(card)
+                    matchedCards.push(card) //move cards to the matchedCards array
                   });
                   openCards = []; //clear out openCards array
                 }
@@ -121,21 +120,25 @@ function activateCards() {
     })
 }
 
+
+
 function init_Timer() {
     deck.addEventListener('click', function(e) {
-        if (seconds === 0) {
+        //clockOff checks if clock is unactivated. Prevents bug of double clicking, and speeding up the clock.
+        if (clockOff) {
             myTimer = setInterval(insertTime, 1000);
+            clockOff = false;
         }
     })
 }
 
 function insertTime() {
     seconds++;
-        if (seconds < 10) {
+        if (seconds < 10) { //adds the leading zero
             document.querySelector('.timer').innerHTML = 'Timer: ' + minutes + ':0' + seconds;
         }
 
-        else if (seconds === 60) {
+        else if (seconds === 60) { //converts to minutes
             seconds = '00';
             minutes++;
             document.querySelector('.timer').innerHTML = 'Timer: ' + minutes + ':' + seconds;
@@ -153,7 +156,8 @@ function resetTimer() {
     clearInterval(myTimer);
     seconds = 0;
     minutes = 0;
-    document.querySelector('.timer').innerHTML = 'Timer: ' + minutes + ':0' + seconds;
+    document.querySelector('.timer').innerHTML = 'Timer: ' + minutes + ':0' + seconds; //resets visual timer
+    clockOff = true;
 }
 
 
@@ -179,6 +183,7 @@ function gameOver() {
     msg_box.innerText = 'You lose';
     }
     msg_box.classList.remove('hide_msg')
+    stopTimer();
     setTimeout(function() {
     alert(msg_box.innerText);
     })
@@ -194,7 +199,8 @@ restartButton.addEventListener('click', function() {
   moves = 0;
   matchedCards = []
   movesCounter.innerText = moves + ' Moves';
-
+  msg_box.classList.add('hide_msg')
+  deck.classList.remove('locked');
 });
 
 
