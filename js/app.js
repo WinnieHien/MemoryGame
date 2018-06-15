@@ -5,12 +5,9 @@
 
 
 //Create a list that holds all of your cards
-const list = ['fa-bicycle', 'fa-bicycle', 'fa-leaf', 'fa-leaf', 'fa-cube', 'fa-cube', 'fa-anchor', 'fa-anchor', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-bolt', 'fa-bolt', 'fa-bomb', 'fa-bomb', 'fa-diamond', 'fa-diamond']
-
-
+const list = ['fa-bicycle', 'fa-bicycle', 'fa-leaf', 'fa-leaf', 'fa-cube', 'fa-cube', 'fa-anchor', 'fa-anchor', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-bolt', 'fa-bolt', 'fa-bomb', 'fa-bomb', 'fa-diamond', 'fa-diamond'];
 
 const deck = document.querySelector('.deck');
-let allCards = document.querySelectorAll('.card');
 let openCards = []
 let matchedCards = []
 
@@ -20,6 +17,7 @@ let moves = 0;
 
 //Timer variables
 let timer = document.querySelector('.timer');
+let myTimer = null;
 let seconds = 0;
 let minutes = 0;
 
@@ -55,98 +53,84 @@ function shuffle(array) {
     return array;
 }
 
+restartButton.addEventListener('click', function() {
+  resetTimer();
+  clearGameboard();
+  createCards();
+
+});
+
+function clearGameboard() {
+    allCards.forEach(function(card) {
+        card.remove();
+        //or deck.innerHTML = '';
+    })
+}
 
 //Create gameboard function that loops through each card
-
 function createCards () {
+    shuffle(list);
     for (let i = 0; i < list.length; i++) {
-        let cardz = document.createElement('li');
-        cardz.className = 'card';
-        cardz.classList.add('fa');
-        cardz.classList.add(list[i]);
-
-        deck.appendChild(cardz);
+        let newCard = document.createElement('li');
+        newCard.className = 'card';
+        newCard.classList.add('fa');
+        newCard.classList.add(list[i]);
+        deck.appendChild(newCard);
     }
 }
 
+function activateCards() {
+    document.querySelectorAll('.card').forEach(function(card) {
+        card.addEventListener('click', function(e) {
+            //when clicked, add the card to the openCards array
+            console.log('clicked card')
+            openCards.push(card);
+            card.classList.add('open', 'show', 'locked')
+            if (openCards.length === 2){
 
-shuffle(list);
+                let flippedCard_A = openCards[0];
+                let flippedCard_B = openCards[1];
 
-createCards();
+                //If cards match, change class to match
+                if (flippedCard_A.className === flippedCard_B.className) {
+                  console.log("It's a match");
 
-startTimer();
+                  openCards.forEach(function(card) {
+                    card.classList.remove('open', 'show');
+                    card.classList.add('match')
+                    matchedCards.push(card)
+                  });
+                  openCards = []; //clear out openCards array
+                }
+                // If cards don't match, flip back over after 600ms
+                else {
+                  console.log("Not a match!")
 
-allCards.forEach(function(card) {
-    card.addEventListener('click', function(e) {
-        //when clicked, add the card to the openCards array
-        openCards.push(card);
-        card.classList.add('open', 'show', 'locked')
-        if (openCards.length === 2){
+                  setTimeout(function() {
+                    openCards.forEach(function(card) {
+                      card.classList.remove('open', 'show', 'locked');
+                    });
+                    openCards = [];
+                  }, 600);
+                moves++//increment moves tracker
+                movesCounter.innerText = moves + ' Moves';
+                }
+                console.log ('Moves:', moves)
+                // setTimeout(function() {
+                //   checkGameOver();
+                // }, 250);
+                checkGameOver();
 
-            let flippedCard_A = openCards[0];
-            let flippedCard_B = openCards[1];
-
-            //If cards match, change class to match
-            if (flippedCard_A.className === flippedCard_B.className) {
-              console.log("It's a match");
-
-              openCards.forEach(function(card) {
-                card.classList.remove('open', 'show');
-                card.classList.add('match')
-                matchedCards.push(card)
-              });
-              openCards = []; //clear out openCards array
             }
-            // If cards don't match, flip back over after 600ms
             else {
-              console.log("Not a match!")
-
-              setTimeout(function() {
-                openCards.forEach(function(card) {
-                  card.classList.remove('open', 'show', 'locked');
-                });
-                openCards = [];
-              }, 600);
-            moves++//increment moves tracker
-            movesCounter.innerText = moves + ' Moves';
+              console.log("Only one card flipped!")
             }
-            console.log ('Moves:', moves)
-            setTimeout(function() {
-              checkGameOver();
-            }, 250);
 
-
-        }
-        else {
-          console.log("Only one card flipped!")
-        }
-
-    })
-})
-
-function checkGameOver() {
-    if (matchedCards.length === 16 || moves == 10) {
-    gameOver();
-    }
-}
-
-function gameOver() {
-    deck.classList.add('locked');
-    if (moves < 10) {
-    msg_box.innerText = 'You win!';
-    }
-    else {
-    msg_box.innerText = 'You lose';
-    }
-    msg_box.classList.remove('hide_msg')
-    setTimeout(function() {
-    alert(msg_box.innerText);
+        })
     })
 }
 
-//TODO: Need to check as to why nothing is displaying. Need to check innerText/innerHTML. Need to make the div html element display something in console.log
-
-function startTimer() {
+function init_Timer() {
     deck.addEventListener('click', function(e) {
         let myTimer = setInterval(insertTime, 1000);
     })
@@ -172,22 +156,38 @@ function stopTimer() {
     clearInterval(myTimer);
 }
 
-//TODO: having issues with myTimer being put in directly.
-
 function resetTimer() {
     clearInterval(myTimer);
     let seconds = 0;
     let minutes = 0;
 }
 
-//Creating the RESET button
-restart.addEventListener('click', function(e) {
-        resetTimer();
-        clearGameboard();
-        createCards();
-    });
 
-function clearGameboard() {
+function startGame() {
+    createCards();
+    activateCards();
+    init_Timer();
+};
 
-
+//TODO: Add a minute timeout, too.
+function checkGameOver() {
+    if (matchedCards.length === 16 || moves == 10) {
+    gameOver();
+    }
 }
+
+function gameOver() {
+    deck.classList.add('locked');
+    if (moves < 10) {
+    msg_box.innerText = 'You win!';
+    }
+    else {
+    msg_box.innerText = 'You lose';
+    }
+    msg_box.classList.remove('hide_msg')
+    setTimeout(function() {
+    alert(msg_box.innerText);
+    })
+}
+
+startGame();
