@@ -1,14 +1,44 @@
+
 /*
- * Create a list that holds all of your cards
+ * Define variables
  */
 
+
+//Create a list that holds all of your cards
 const list = ['fa-bicycle', 'fa-bicycle', 'fa-leaf', 'fa-leaf', 'fa-cube', 'fa-cube', 'fa-anchor', 'fa-anchor', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-bolt', 'fa-bolt', 'fa-bomb', 'fa-bomb', 'fa-diamond', 'fa-diamond']
+
+
+
+const deck = document.querySelector('.deck');
+let allCards = document.querySelectorAll('.card');
+let openCards = []
+let matchedCards = []
+
+//Move Counter variables
+let movesCounter = document.querySelector('.movesCounter');
+let moves = 0;
+
+//Timer variables
+let timer = document.querySelector('.timer');
+let seconds = 0;
+let minutes = 0;
+
+//Message box variables
+let msg_box = document.querySelector('.msg_box');
+
+//Restart button variables
+let restartButton = document.querySelector('.restart'); //see if this works, or if it needs to be called directly like with thisTimer
+
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+
+
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -25,12 +55,8 @@ function shuffle(array) {
     return array;
 }
 
-shuffle(list);
 
-//define variables
-const deck = document.querySelector('.deck');
-
-//creating a for loop to create multiple cards
+//Create gameboard function that loops through each card
 
 function createCards () {
     for (let i = 0; i < list.length; i++) {
@@ -43,36 +69,12 @@ function createCards () {
     }
 }
 
+
+shuffle(list);
+
 createCards();
 
-
-
-/*
- * set up the event listener for a card. If a card is clicked:
-
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
-*/
-
-// √ if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
-// √ display the card's symbol (put this functionality in another function that you call from this one)
-// √ add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
-// √ if the list already has another card, check to see if the two cards match
-// √if the cards do not match, remove the cards from the list and hide the card's symbol
-
-let allCards = document.querySelectorAll('.card');
-let msg_box = document.querySelector('.msg_box');
-let movesCounter = document.querySelector('.movesCounter');
-let timer = document.querySelector('.timer');
-
-let openCards = []
-let matchedCards = []
-
-
-//TODO: Use Set Time Interval to add a Timer.
-//TODO: To stop a timer, use clearInterval() function. Might need to pass the actual number to clear it out. Do more research.
-
-let moves = 0;
+startTimer();
 
 allCards.forEach(function(card) {
     card.addEventListener('click', function(e) {
@@ -122,8 +124,6 @@ allCards.forEach(function(card) {
     })
 })
 
-
-//need to figure out where to insert this.
 function checkGameOver() {
     if (matchedCards.length === 16 || moves == 10) {
     gameOver();
@@ -144,15 +144,7 @@ function gameOver() {
     })
 }
 
-//TODO: Move up timer when completed
-
 //TODO: Need to check as to why nothing is displaying. Need to check innerText/innerHTML. Need to make the div html element display something in console.log
-
-
-let seconds = 0;
-let minutes = 0;
-
-startTimer();
 
 function startTimer() {
     deck.addEventListener('click', function(e) {
@@ -189,27 +181,13 @@ function resetTimer() {
 }
 
 //Creating the RESET button
-//TODO: Move the variables up higher.
-let restartButton = document.querySelector('.restart'); //see if this works, or if it needs to be called directly like with thisTimer
-
-restart();
-
-function restart () {
-
-    restart.addEventListener('click', function(e) {
+restart.addEventListener('click', function(e) {
         resetTimer();
         clearGameboard();
         createCards();
-    })
-
-}
-
-//TODO: Need this equivalent... of .empty() but in DOM methods/DOM manipulation.
+    });
 
 function clearGameboard() {
 
-    // $('#pixelCanvas').empty();
-    //  makeGrid(rowHeight, rowWidth);
-    // })
 
 }
