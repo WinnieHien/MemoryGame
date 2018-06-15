@@ -53,11 +53,6 @@ function shuffle(array) {
     return array;
 }
 
-restartButton.addEventListener('click', function() {
-  resetTimer();
-  clearGameboard();
-  startGame();
-});
 
 function clearGameboard() {
     deck.innerHTML = '';
@@ -158,6 +153,7 @@ function resetTimer() {
     clearInterval(myTimer);
     seconds = 0;
     minutes = 0;
+    document.querySelector('.timer').innerHTML = 'Timer: ' + minutes + ':0' + seconds;
 }
 
 
@@ -187,5 +183,19 @@ function gameOver() {
     alert(msg_box.innerText);
     })
 }
+
+
+restartButton.addEventListener('click', function() {
+
+  console.log('restart button clicked')
+  clearGameboard();
+  startGame();
+  resetTimer();
+  moves = 0;
+  matchedCards = []
+  movesCounter.innerText = moves + ' Moves';
+
+});
+
 
 startGame();
