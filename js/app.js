@@ -32,10 +32,6 @@ let starRemoved = false;
 //Restart button variables
 let restartButton = document.querySelector('.restart'); //see if this works, or if it needs to be called directly like with thisTimer
 
-
-
-//TODO: See if star variable is necessary
-
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -63,7 +59,7 @@ function clearGameboard() {
     deck.innerHTML = '';
 }
 
-//Create gameboard function that loops through each card
+//Create gameboard function that loops through each card and adds html
 function createCards () {
     shuffle(list);
     for (let i = 0; i < list.length; i++) {
@@ -75,55 +71,45 @@ function createCards () {
     }
 }
 
-
-//TODO: Remove console.log messages once bug for 3 clicks at once is fixed.
-
-
 //Activates the click funcationality on the cards/deck
 function activateCards() {
     document.querySelectorAll('.card').forEach(function(card) {
         card.addEventListener('click', function(e) {
             //when clicked, add the card to the openCards array
-            console.log('card clicked')
             openCards.push(card); //add to the openCards array. Use this to keep track if two cards are clicked to check for the match.
-            card.classList.add('open', 'show', 'locked')    //locked disables pointer functions on those cards via css.
-            if (openCards.length === 2){
+                if (openCards.length < 3) { //prevent user from clicking more than 2 at a time.
+                    card.classList.add('open', 'show', 'locked')    //locked disables pointer functions on those cards via css.
+                    if (openCards.length === 2){
 
-                let flippedCard_A = openCards[0];
-                let flippedCard_B = openCards[1];
+                        let flippedCard_A = openCards[0];
+                        let flippedCard_B = openCards[1];
 
-                //Check if class names match. If cards match, update class to match.
-                if (flippedCard_A.className === flippedCard_B.className) {
-                  console.log("It's a match");
-                  openCards.forEach(function(card) {
-                    card.classList.remove('open', 'show');
-                    card.classList.add('match')
-                    matchedCards.push(card) //move cards to the matchedCards array
-                  });
-                  openCards = []; //clear out openCards array
+                        //Check if class names match. If cards match, update class to match.
+                        if (flippedCard_A.className === flippedCard_B.className) {
+                          console.log("It's a match");
+                          openCards.forEach(function(card) {
+                            card.classList.remove('open', 'show');
+                            card.classList.add('match')
+                            matchedCards.push(card) //move cards to the matchedCards array
+                          });
+                          openCards = []; //clear out openCards array
+                        }
+                        // If cards don't match, flip back over after 600ms
+                        else {
+                          console.log("Not a match!")
+                          removeStars();
+                          setTimeout(function() {
+                            openCards.forEach(function(card) {
+                              card.classList.remove('open', 'show', 'locked');
+                            });
+                            openCards = [];
+                          }, 600);
+                        moves++//increment moves tracker
+                        movesCounter.innerText = moves + ' Moves';
+                        }
+                        checkGameOver();
+                    }
                 }
-                // If cards don't match, flip back over after 600ms
-                else {
-                  console.log("Not a match!")
-                  removeStars();
-                  setTimeout(function() {
-                    openCards.forEach(function(card) {
-                      card.classList.remove('open', 'show', 'locked');
-                    });
-                    openCards = [];
-                  }, 600);
-                moves++//increment moves tracker
-                movesCounter.innerText = moves + ' Moves';
-                }
-                console.log ('Moves:', moves)
-
-                checkGameOver();
-
-            }
-            else {
-              console.log("Only one card flipped!")
-            }
-
         })
     })
 }
@@ -135,7 +121,7 @@ function removeStars () {
 
 function init_Timer() {
     deck.addEventListener('click', function(e) {
-        //clockOff checks if clock is unactivated. Prevents bug of double clicking, and speeding up the clock.
+        //clockOff checks if clock is unactivated. Prevents bug of multiple clicks causing timer to speed up.
         if (clockOff) {
             myTimer = setInterval(insertTime, 1000);
             clockOff = false;
@@ -232,9 +218,7 @@ restartButton.addEventListener('click', function() {
   resetStars();
 });
 
-
-
-//add Back stars on reset game
+//add Back stars on reset game by building the html
 
 function resetStars () {
     starCounter.innerHTML = '';
@@ -250,17 +234,14 @@ function resetStars () {
 
 function flashCards () {
     console.log('flash cards')
-
     document.querySelectorAll('.card').forEach(function(card) {
         card.classList.add('open', 'show', 'locked');
     });
-
     setTimeout(function() {
         document.querySelectorAll('.card').forEach(function(card) {
             card.classList.remove('open', 'show', 'locked');
         })
     }, 3000);
 }
-
 
 startGame();
