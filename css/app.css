@@ -89,11 +89,16 @@ h1 {
  * Styles for the Score Panel
  */
 
-.score-panel {
-    text-align: left;
-    width: 60%;
-    margin-bottom: 10px;
-}
+ .score-panel {
+     text-align: left;
+     width: 100%;
+     max-width: 640px;
+     margin-bottom: 10px;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+ }
+
 
 .score-panel .stars {
     margin: 0;
@@ -114,8 +119,20 @@ h1 {
 
 .msg_box {
   margin: 2em;
+  font: 1em;
 }
 
 .hide_msg {
-  display: none;
+  display: block;
+  font-size: 0;
+}
+
+.timer {
+
+    padding: 0 2em 0 2em
+}
+
+.movesCounter {
+
+    padding: 0 0 0 2em
 }

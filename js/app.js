@@ -106,7 +106,7 @@ allCards.forEach(function(card) {
                 openCards = [];
               }, 600);
             moves++//increment moves tracker
-            movesCounter.innerText = moves;
+            movesCounter.innerText = moves + ' Moves';
             }
             console.log ('Moves:', moves)
             setTimeout(function() {
@@ -180,8 +180,36 @@ function stopTimer() {
     clearInterval(myTimer);
 }
 
+//TODO: having issues with myTimer being put in directly.
+
 function resetTimer() {
     clearInterval(myTimer);
     let seconds = 0;
     let minutes = 0;
+}
+
+//Creating the RESET button
+//TODO: Move the variables up higher.
+let restartButton = document.querySelector('.restart'); //see if this works, or if it needs to be called directly like with thisTimer
+
+restart();
+
+function restart () {
+
+    restart.addEventListener('click', function(e) {
+        resetTimer();
+        clearGameboard();
+        createCards();
+    })
+
+}
+
+//TODO: Need this equivalent... of .empty() but in DOM methods/DOM manipulation.
+
+function clearGameboard() {
+
+    // $('#pixelCanvas').empty();
+    //  makeGrid(rowHeight, rowWidth);
+    // })
+
 }
