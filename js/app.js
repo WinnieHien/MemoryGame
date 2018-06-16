@@ -222,6 +222,7 @@ function resetGame () {
     movesCounter.classList.remove('red');
     timer.classList.remove('red');
     resetStars();
+    pop_up.close();
 }
 
 
