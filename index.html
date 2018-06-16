@@ -19,8 +19,8 @@
         <!-- Adding Pop-up Message/Modal Box -->
 
         <dialog class="pop_up">
-            <div>
-                <span class="close" onclick="closeModal()"></span>
+            <div class="statsContainer">
+                <span class="close" onclick="closeModal()">&times;</span>
                 <h4>Game Stats</h4>
                     <ul class="stats">
                         <div class="starsContainer">
@@ -29,6 +29,7 @@
                         <li class="moveStats"></li>
                         <li class="timeStats"></li>
                     </ul>
+                <input type="button" onclick="showModal()" value="Play Again">
             </div>
         </dialog>
 
@@ -41,7 +42,7 @@
         		<li><i class="fa fa-star"></i></li>
         	</ul>
 
-        	<span class="movesCounter">0 Moves</span>
+        	<span class="movesCounter">5 Moves</span>
             <span class="msg_box hide_msg"> Click a Card to Begin Play!</span>
             <div class="timer">Time: 0:00</div>
 

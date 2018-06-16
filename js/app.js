@@ -13,7 +13,7 @@ let matchedCards = []
 
 //Move Counter variables
 let movesCounter = document.querySelector('.movesCounter');
-let moves = 0;
+let moves = 5;
 
 //Timer variables
 let timer = document.querySelector('.timer');
@@ -33,6 +33,7 @@ let moveStats = document.querySelector('.moveStats');
 let timeStats = document.querySelector('.timeStats');
 
 //Star Counter variables
+let stars = 5;
 let starCounter = document.querySelector('.stars');
 let starRemoved = false;
 
@@ -41,8 +42,13 @@ let restartButton = document.querySelector('.restart'); //see if this works, or 
 
 //TODO: On gameOver() disply pop_up. Have to go back to fix it.
 function displayPopup (){
-    starStats.innerHTML = 'Stars: '+ starCounter.innerHTML;
-    moveStats.innerHTML = 'Moves Remaining: ';
+    if (stars === 0) {
+        starStats.innerHTML = 'Stars: '+ stars;
+    }
+    else {
+        starStats.innerHTML = 'Stars: '+ starCounter.innerHTML;
+    }
+    moveStats.innerHTML = 'Moves: '+ moves + ' remaining';
     timeStats.innerHTML = timer.innerHTML;
     pop_up.showModal(); //showModal is a pre-defined function in JS
 }
@@ -117,7 +123,7 @@ function activateCards() {
                             });
                             openCards = [];
                           }, 600);
-                        moves++//increment moves tracker
+                        moves--//increment moves tracker
                         movesCounter.innerText = moves + ' Moves';
                         }
                         checkGameOver();
@@ -145,16 +151,16 @@ function init_Timer() {
 function insertTime() {
     seconds++;
         if (seconds < 10) { //adds the leading zero
-            document.querySelector('.timer').innerHTML = 'Timer: ' + minutes + ':0' + seconds;
+            document.querySelector('.timer').innerHTML = 'Time: ' + minutes + ':0' + seconds;
         }
 
         else if (seconds === 60) { //converts to minutes
             seconds = '00';
             minutes++;
-            document.querySelector('.timer').innerHTML = 'Timer: ' + minutes + ':' + seconds;
+            document.querySelector('.timer').innerHTML = 'Time: ' + minutes + ':' + seconds;
         }
         else {
-            document.querySelector('.timer').innerHTML = 'Timer: ' + minutes + ':' + seconds;
+            document.querySelector('.timer').innerHTML = 'Time: ' + minutes + ':' + seconds;
         }
     checkGameOver();
 }
@@ -178,11 +184,13 @@ function resetTimer() {
 
  function removeStars () {
          starCounter.firstElementChild.remove();
+         stars--;
  }
 
  //add Back stars on reset game by building the html
  function resetStars () {
      starCounter.innerHTML = '';
+     stars = 5;
      for (let i = 0; i < 5; i++) {
          let newStar = document.createElement('li');
          starCounter.appendChild(newStar);
@@ -199,21 +207,23 @@ function resetTimer() {
  * Restart Button
  */
 
-restartButton.addEventListener('click', function() {
+restartButton.addEventListener('click', resetGame);
 
-  console.log('restart button clicked');
-  clearGameboard();
-  startGame();
-  resetTimer();
-  moves = 0;
-  matchedCards = []
-  movesCounter.innerText = moves + ' Moves';
-  msg_box.classList.add('hide_msg');
-  deck.classList.remove('locked');
-  movesCounter.classList.remove('red');
-  timer.classList.remove('red');
-  resetStars();
-});
+function resetGame () {
+    console.log('restart button clicked');
+    clearGameboard();
+    startGame();
+    resetTimer();
+    moves = 5;
+    matchedCards = []
+    movesCounter.innerText = moves + ' Moves';
+    msg_box.classList.add('hide_msg');
+    deck.classList.remove('locked');
+    movesCounter.classList.remove('red');
+    timer.classList.remove('red');
+    resetStars();
+}
+
 
 /*
  * Flash Card at beginnning of game
@@ -244,7 +254,7 @@ function startGame() {
 };
 
 function checkGameOver() {
-    if (matchedCards.length === 16 || moves === 5|| minutes === 2) {
+    if (matchedCards.length === 16 || moves === 0 || minutes === 2) {
     gameOver();
     }
 }
@@ -273,4 +283,3 @@ function gameOver() {
 //Intialize Game
 
 startGame();
-displayPopup();

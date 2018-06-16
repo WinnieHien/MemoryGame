@@ -160,3 +160,7 @@ h1 {
 .starStats {
     display:inline-flex;
 }
+
+.statsContainer {
+    padding: 0 2em 0 2em;    
+}
