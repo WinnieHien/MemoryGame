@@ -143,3 +143,20 @@ h1 {
     color: red;
     font-style: italic;
 }
+
+.stats li {
+    list-style: none;
+    padding-left: 0.1em;
+}
+
+.stats {
+    padding-left: 0px;
+}
+
+.starsContainer {
+    display: flex;
+}
+
+.starStats {
+    display:inline-flex;
+}
