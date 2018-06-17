@@ -2,19 +2,22 @@
 
 ## Table of Contents
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+* [Game Play](#gamePlay)
+* [Bugs](#bugs)
 
-## Instructions
+## Game Play
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+Interactive Memory Matching Game (i.e. Concentration)
 
-To get started, open `js/app.js` and start building out the app's functionality
+The objective of the game is to match all 8 sets of cards.
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+Upon loading of game, all 16 cards are flashed to the player. Players must then click to flip over cards, and match all 8 sets. Maximum of 5 wrong moves, and maximum play time of 2 minutes.
 
-## Contributing
+Option to reset or play again after Game Over.
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
 
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+## Bugs
+
+Known bugs include:
+
+Clicking the reset button consecutively speeds up flashCards timer. Needs to be addressed.

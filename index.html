@@ -19,9 +19,12 @@
         <!-- Adding Pop-up Message/Modal Box -->
 
         <dialog class="pop_up">
+            <div class="closebtnContainer">
+                <span class="closeButton" > &times;</span>
+            </div>
             <div class="statsContainer">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <h4>Game Stats</h4>
+                <h2 class="win_lose_msg"> You Lose! </>
+                <h4 class="gamestats">Game Stats</h4>
                     <ul class="stats">
                         <div class="starsContainer">
                             <li class="starStats"></li>
@@ -29,7 +32,9 @@
                         <li class="moveStats"></li>
                         <li class="timeStats"></li>
                     </ul>
-                <input type="button" onclick="resetGame()" value="Play Again">
+                <div class="replayContainer">
+                    <input class="replayButton" type="button" value="Play Again">
+                </div>
             </div>
         </dialog>
 
@@ -43,7 +48,6 @@
         	</ul>
 
         	<span class="movesCounter">5 Moves</span>
-            <span class="msg_box hide_msg"> Click a Card to Begin Play!</span>
             <div class="timer">Time: 0:00</div>
 
             <div class="restart">
