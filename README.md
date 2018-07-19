@@ -20,4 +20,4 @@ Option to reset or play again after Game Over.
 
 Known bugs include:
 
-Clicking the reset button consecutively speeds up flashCards timer. Needs to be addressed.
+Clicking the reset button consecutively speeds up flashCards timer. 
